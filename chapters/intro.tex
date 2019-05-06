@@ -1,33 +1,64 @@
 % !TeX root = ../main.tex
 
-\chapter{简介}
+\chapter{绪论}
 
-\section{一级节标题}
+\section{研究背景及意义}
 
-\subsection{二级节标题}
+  服务机器人是一种半自助或全自主工作的机器人。它能完成有益于人类健康的服务工作，但不包括从事生产的设备。它们可以在真实且不可预测的环境中自动进行决策和行动来完成确定的任务。
 
-\subsubsection{三级节标题}
+服务机器人分为个人/家庭服务机器人和专业机器人。专业机器人一般在特定场景中使用，如商业服务、物流、医疗、救援等；而个人/家用服务机器人主要在日常生活场景中进行与人进行交互，提供家政服务、陪伴、娱乐、辅助学习等多种功能，包括家政机器人、娱乐休闲机器人、助老助残机器人等。其中，个人/家庭服务机器人为本文研究内容所适用的对象。
 
-\paragraph{四级节标题}
+  为了精准理解当前环境和有效执行指令，能够精确可靠地自动识别目标人物并对其进行追踪陪同，是移动服务机器人的人机交互中的一项重要且必要的功能。
 
-\subparagraph{五级节标题}
+  移动机器人的核心技术包括导航定位、地图创建、路径规划、任务分配和目标跟踪等。
+  移动机器人的智能指标包括三个方面：自主型、适应性和交互性。
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-incididunt ut labore et dolore magna aliqua.
-Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-aliquip ex ea commodo consequat.
-Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-fugiat nulla pariatur.
-Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
-deserunt mollit anim id est laborum.
+  国际机器人联合会(International Federation of Robotics)对服务机器人做了如下定义：
+
+  服务机器人是一种半自助或全自主工作的机器人。它能完成有益于人类和设备的服务工作，但不包括从事生产的设备。
+
+  服务机器人通常也是移动机器人。
+
+  从20世纪80年代中期开始，机器人已从工厂的结构化环境进入人的日常生活环境——医院、办公室、家庭和其他杂乱及不可控环境，成为不仅能自主完成工作，而且能与人共同协作完成任务或在人的指导下完成任务的智能服务机器人。
+
+  20世纪90年代末，世界服务机器人协会(International Service Robot Association)才第一次定义了服务机器人的概念：能够进行感知、思考和行动，并以此来有益于和扩展人类的能力和提高人类的生产效率的机器。
+
+  服务机器人被看重的就是交互能力
+
+  随着人工智能与物联网技术不断发展，服务机器人作为智能硬件之一，不断地丰富其自身功能及其实现更强大的性能。在技术层面，我国服务机器人与国外相比，仍存在较大差距比如在机器人基础算法、核心软件、人工智能硬件落地等方面存在短板。国内服务机器人总体尚处于初级发展阶段，半数以上的产品处于研发试验阶段，但其增长速度较快。根据相关数据显示，2017年全年我国的整体机器人规模市场达到1200亿元，其中服务机器人占据28\%的市场，服务机器人增长率明显高于工业机器人的发展。
+
+现今，随着物联网的发展和人们对智能化的要求，在日常生活中协助或娱乐人类的个人服务机器人市场正在迅速发展。2017年，个人/家庭服务机器人市场价值增长了27\%，达到21亿美元；总数增加了25\%，达到约850万台。据估计，近610万台机器人被用于家庭工作。
+
+个人和国内应用中的机器人技术经历了强劲的全球增长，地板清洁机器人，机器人和用于家庭教育的机器人（后者越来越多地被称为社交机器人）越来越成为人们生活的一部分。未来的产品愿景指向具有更高复杂性，能力和价值的家用机器人，例如用于支持老年人的辅助机器人，帮助做家务和娱乐。
+
+  1. 随着人口老龄化趋势的加重，服务机器人市场迎来了爆发增长期。家庭用机器人，智能公共服务机器人应用场景和服务模式不断拓展。随着人类寿命的演唱，老龄化趋势的加重，给医疗健康机构带来越来越大的压力，养老问题兔鳄家明显，社会对老年人护理的需求大大增加。智能养老设备，如智能服务机器人，的出现极大的弥补了由老年人口激增，护工、养老机构等养老资源匮乏所带来的养老服务供需缺口。此处可引用一段华为项目比赛的简介？）
+
+   2. 行人跟随是智能服务机器人的人机交互中的一项重要技术。它要求机器人能够准确识别指定目标，通过对目标的跟随来保证更好地完成人机交互，同时，在移动过程中强调安全。
+
+
+\section{相关工作}
+
+Literature中已经有很多following相关的研究工作。常用的行人追踪方法分为基于视觉信息的行人检追踪、基于激光信息的行人追踪，以及多传感器融合的方法。
+
+\subsection{基于视觉信息的行人检测与追踪}
+基于检测的追踪和基于追踪的算法:https://zhuanlan.zhihu.com/p/32826719
+
+大部分方法使用了粒子滤波(particle filters)，多假设追踪(multiple hypothesis tracking)，卡尔曼滤波(Kalman filters)的方法
+
+\cite{mucientes2006multiple}
+
+\subsubsection{基于人脸识别的跟踪}
+
+   (2)人脸识别的速度和正确率均已达到一个很高的层次，但在实际的激动机器人跟随场景中，人不是一直面对移动机器人。
+
+   (3)基于模板匹配的跟踪
+
+   (4)基于轮廓信息的跟踪
 
 
 
-\section{脚注}
+\subsection{基于激光的行人检测与追踪}
+  (1) 使用几何特征识别目标
+   
+  (2) 基于运动检测识别目标
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-incididunt ut labore et dolore magna aliqua.
-\footnote{Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-  nisi ut aliquip ex ea commodo consequat.
-  Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
-  eu fugiat nulla pariatur.}
