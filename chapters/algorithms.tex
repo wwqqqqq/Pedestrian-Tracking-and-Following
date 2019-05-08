@@ -38,7 +38,7 @@
 
 \begin{figure}[htb]
   \centering
-  \includegraphics[width=0.7\textwidth]{rgb_histogram.png}
+  \includegraphics[width=0.6\textwidth]{rgb_histogram.png}
   \caption{左：B通道颜色直方图；中：G通道颜色直方图；右：R通道颜色直方图}
   \label{fig:rgbhistogram}
 \end{figure}
@@ -51,7 +51,7 @@
 
 \begin{figure}[htb]
   \centering
-  \includegraphics[width=0.4\textwidth]{hsv.png}
+  \includegraphics[width=0.35\textwidth]{hsv.png}
   \caption{HSV模型可以使用圆柱坐标系中的一个圆锥形子集表示}
   \label{fig:hsv}
 \end{figure}
@@ -111,22 +111,35 @@ g_y(x,y)=\begin{bmatrix}
 
   图\ref{fig:gradients}中包括了RGB三个通道在每一个像素点上的梯度值，在计算HOG特征向量时，我们选取三个通道的梯度的最大值作为该点处的梯度大小，最大值对应的通道的梯度角度为该点处的梯度方向。
 
-  方向梯度直方图统计的实际上是梯度的方向。梯度的方向在$[0^{\circ},360^{\circ})$上，但是我们实际在统计方向时，采用的却是$[0^{\circ},180^{\circ})$的统计范围，计算$\theta(x,y) mod 180^{\circ}$来代替原有的角度值，即将相差$180^{\circ}$的两个角度视为同一个梯度方向。已有实验表明，这种统计方式得到的结果往往比采用$[0^{\circ},360^{\circ})$范围的原方向更好。在统计梯度方向时时，我们还需要使用梯度的大小作为对应方向的权重。
+  方向梯度直方图统计的实际上是梯度的方向。梯度的方向在$[0^{\circ},360^{\circ})$上，但是我们实际在统计方向时，采用的却是$[0^{\circ},180^{\circ})$的统计范围，计算$\theta(x,y) \mod 180^{\circ}$来代替原有的角度值，即将相差$180^{\circ}$的两个角度视为同一个梯度方向。实验表明，这种统计方式得到的结果往往比采用$[0^{\circ},360^{\circ})$范围的原方向更好\cite{dalal2005histograms}。在统计梯度方向时时，我们还需要使用梯度的大小作为对应方向的权重。
 
-  在计算直方图时，我们取9个组（bins），分别对应$0^{\circ},20^{\circ},40^{\circ},\dots,160^{\circ}$，若一个像素处的梯度正好为20的整数倍，将其梯度大小加到对应的bin中；否则，按照比例，将其加入相邻的两个bins中。以图\ref{fig:distribute}为例。
+  在计算直方图时，我们取9个组（bins），分别对应$0^{\circ},20^{\circ},40^{\circ},\dots,160^{\circ}$，若一个像素处的梯度正好为20的整数倍，将其梯度大小加到对应的bin中；否则，按照比例，将其加入相邻的两个bins中。以图\ref{fig:distribute}为例。这样一来，HOG特征描述子即为一个长为9的向量，每一个分量的大小对应直方图中相应bin的高度。
 
 \begin{figure}[htb]
   \centering
-  \includegraphics[width=0.8\textwidth]{calc_histogram.png}
+  \includegraphics[width=0.7\textwidth]{calc_histogram.png}
   \caption{统计梯度方向直方图的方法示意}
   \label{fig:distribute}
 \end{figure}
 
+  值得注意的是，由于图像的梯度是由各像素点周围的颜色值大小计算得到的，所以也会受光照的影响，例如，将所有像素值除以2来使图像变暗，这时所有梯度大小就也会减半，直方图每个bin的高度也会减半。而在一张图片中，每个局部区域的光照可能会有所不同，为了降低这些影响，在进行方向梯度统计时，并不会直接统计一整个图片的方向梯度直方图，而是以$8\times8$像素的区域为一个单元格（cell）来分别进行统计，再在此基础上进行规范化（normalization）。这样会降低光照等噪音对特征描述子质量的影响，使HOG描述子更加稳定鲁棒。此过程如图\ref{fig:procedure}所示。
+
+\begin{figure}[htb]
+  \centering
+  \includegraphics[width=1.1\textwidth]{procedure.png}
+  \caption{统计单元格梯度直方图的过程示意图}
+  \label{fig:procedure}
+\end{figure}
+
+  在进行规范化时，最常用的方法是在单元格的基础上取一个更大的块（block），每块的大小为$16\times16$像素，即包括4个单元格，将每一个块的4个HOG向量作为一个整体进行L2规范化。即$\vec{v}\leftarrow\vec{v}/\sqrt{\lVert v \rVert^2_2 + \epsilon^2}$,其中$\epsilon$为一个足够小的正常数。在规范化一个块之后，我们得到了一个长为36的向量，即这个块最终的HOG向量。再以8像素的步长（stride）移动这个块，对下一个块进行规范化，即两个相邻块之间有2个单元格的重叠。如此循环，直到整张图的每一个单元格都被计算，再将所有经过的块的向量合并在一起，作为整张图的HOG描述子。
   
 
-\paragraph{行人检测算法}
+\paragraph{算法示例}
+  a. HOG+SVM
+
 
 \subsubsection{深度学习}
+  随着深度学习的发展，通过神经网络提取特征得到了广泛的应用。https://www.jianshu.com/p/d94e558ebe26
 
 \subsection{基于动态的追踪}
 
