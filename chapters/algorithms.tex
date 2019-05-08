@@ -75,7 +75,24 @@ $$
   \label{fig:hsvhistogram}
 \end{figure}
 
-  b. 方向梯度直方图
+  b. 局部二值模式
+
+  局部二值模式（Local Binary Pattern，LBP）是一种用来描述图像局部纹理特征的特征描述子，具有旋转不变性和对光照变化不敏感等优点，由\citet{ojala1994performance}在1994年首次提出。
+
+  LBP的计算方法非常简单。每个像素都根据它相邻的八个像素按规定的顺序（如顺时针、逆时针）作比较，来确定其特征值。对于中心像素大于某个相邻像素的，该像素对应的二进制位设置为0，否则设置为1，比较了中心点相邻的八个像素后，就得到了一个8位的二进制数，这个数字即为中心像素的特征值，如图\ref{fig:lbp_procedure}所示。为了使得LBP描述子有旋转不变性，\citet{ojala2002multiresolution}提出了一个LBP的具有旋转不变性扩展方法，即不断旋转其邻域，得到一系列的LBP值，取其最小值作为该点的局部二值模式值。
+
+\begin{figure}[htb]
+  \centering
+  \includegraphics[width=1.0\textwidth]{LBP.png}
+  \caption{计算3x3像素块中中心点的LBP值}
+  \label{fig:lbp_procedure}
+\end{figure}
+
+  在计算一个图片的LBP描述子时，首先将图片分成固定大小的单元格（如$16\times16$像素），在计算出每个像素的LBP值后，统计每个单元格内的LBP值直方图，再串联所有单元格的直方图，即可得到该图片的LBP特征向量。
+
+
+
+  c. 方向梯度直方图
 
   方向梯度直方图（Histogram of Oriented Gradient, HOG)是目前行人识别中最广泛使用的特征描述子之一。\citet{dalal2005histograms}在2005年提出HOG结合SVM（支持向量机，support vector machine）进行行人检测的方法，在此之后，该方法被广泛应用到了图像识别中，并尤其在行人检测中获得了巨大的成功，也出现了很多改进和变体。
 
@@ -132,10 +149,13 @@ g_y(x,y)=\begin{bmatrix}
 \end{figure}
 
   在进行规范化时，最常用的方法是在单元格的基础上取一个更大的块（block），每块的大小为$16\times16$像素，即包括4个单元格，将每一个块的4个HOG向量作为一个整体进行L2规范化。即$\vec{v}\leftarrow\vec{v}/\sqrt{\lVert v \rVert^2_2 + \epsilon^2}$,其中$\epsilon$为一个足够小的正常数。在规范化一个块之后，我们得到了一个长为36的向量，即这个块最终的HOG向量。再以8像素的步长（stride）移动这个块，对下一个块进行规范化，即两个相邻块之间有2个单元格的重叠。如此循环，直到整张图的每一个单元格都被计算，再将所有经过的块的向量合并在一起，作为整张图的HOG描述子。
-  
 
 \paragraph{算法示例}
   a. HOG+SVM
+
+  b. HOG-LBP
+
+  https://ieeexplore.ieee.org/abstract/document/5459207/
 
 
 \subsubsection{深度学习}
