@@ -83,9 +83,7 @@ $$
 
   为了计算方向梯度，我们可以简单地使用内核（Kernel）$[-1,0,1]$和$[-1,0,1]^{T}$对原图进行过滤，分别得到横向和纵向上的有向梯度。除了这种方法之外，还可以使用$[-1,1],[1,-8,0,8,-1]$和Sobel算子等作为内核，不过根据\citet{dalal2005histograms}的实验，使用最简单的$[-1,0,1]$进行计算的梯度，在以HOG为特征进行的图像识别中效果最佳。
 
-  对原图片上的每个像素点$(x,y)$，$f(x,y)$为其R、G、B或灰度值中的一个，该通道上的横向和纵向方向梯度为：
-
-
+  在每个像素处，方向梯度都具有大小和方向。对于彩色图像，我们分别计算RGB三个通道的梯度。对原图片上的每个像素点$(x,y)$，$f(x,y)$为其R、G、B值中的一个，该通道上的横向和纵向方向梯度为：
 \begin{gather*}
 g_x(x,y)=[-1,0,1]\ast f(x,y)=-f(x+1,y)+f(x-1,y),\\
 g_y(x,y)=\begin{bmatrix}
@@ -96,14 +94,35 @@ g_y(x,y)=\begin{bmatrix}
 \ast f(x,y) = -f(x,y+1)+f(x,y-1)
 \end{gather*}
 
-
   梯度大小和方向分别为：
-
 \begin{gather*}
 |g(x,y)|=\sqrt{g_x (x,y)^2 + g_y (x,y)^2} \\
-\alpha (x,y)=\tan^{-1}\left(\frac{g_y(x,y)}{g_x(x,y)}\right)
+\theta (x,y)=\tan^{-1}\left(\frac{g_y(x,y)}{g_x(x,y)}\right)
 \end{gather*}
+  
+  使用以上公式在RGB颜色空间上计算图\ref{fig:ewan}的梯度值，如图\ref{fig:gradients}所示。这张梯度图像已经省略了图中很多不必要的信息，如颜色几乎一致的背景，且在同时突出了人物的轮廓。
 
+\begin{figure}[htb]
+  \centering
+  \includegraphics[width=0.9\textwidth]{gradients.png}
+  \caption{左：横向梯度绝对值；中：纵向梯度绝对值；右：梯度大小}
+  \label{fig:gradients}
+\end{figure}
+
+  图\ref{fig:gradients}中包括了RGB三个通道在每一个像素点上的梯度值，在计算HOG特征向量时，我们选取三个通道的梯度的最大值作为该点处的梯度大小，最大值对应的通道的梯度角度为该点处的梯度方向。
+
+  方向梯度直方图统计的实际上是梯度的方向。梯度的方向在$[0^{\circ},360^{\circ})$上，但是我们实际在统计方向时，采用的却是$[0^{\circ},180^{\circ})$的统计范围，计算$\theta(x,y) mod 180^{\circ}$来代替原有的角度值，即将相差$180^{\circ}$的两个角度视为同一个梯度方向。已有实验表明，这种统计方式得到的结果往往比采用$[0^{\circ},360^{\circ})$范围的原方向更好。在统计梯度方向时时，我们还需要使用梯度的大小作为对应方向的权重。
+
+  在计算直方图时，我们取9个组（bins），分别对应$0^{\circ},20^{\circ},40^{\circ},\dots,160^{\circ}$，若一个像素处的梯度正好为20的整数倍，将其梯度大小加到对应的bin中；否则，按照比例，将其加入相邻的两个bins中。以图\ref{fig:distribute}为例。
+
+\begin{figure}[htb]
+  \centering
+  \includegraphics[width=0.8\textwidth]{calc_histogram.png}
+  \caption{统计梯度方向直方图的方法示意}
+  \label{fig:distribute}
+\end{figure}
+
+  
 
 \paragraph{行人检测算法}
 
