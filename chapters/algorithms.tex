@@ -14,6 +14,8 @@
 \subsection{基于检测的追踪}
   基于机器学习的方法是现阶段行人检测算法的主流，下面将介绍常用行人检测方法原理。
 
+  经典的基于检测的追踪方法包括提取人工特征，在使用分类器进行分类，分类器包括支持向量机（Support Vector Machines, SVM），随机森林分类器（Random Forest）和各种Boosting算法（如AdaBoost）。
+
 \subsubsection{人工特征+分类器}
 \paragraph{常用特征描述子}
 
@@ -297,6 +299,31 @@ $$p(x_{0:k}|z_{1:k})\approx \sum^{N_s}_{i=1} $$
 \subsubsection{MeanShift和CamShift}
 
 \subsubsection{相关滤波}
+
+  相关滤波算法利用了在傅里叶域中，两个矩阵的卷积可以被转换为逐元素的点乘的性质，在达到与以往的更加复杂的算法的效果的基础上，降低了计算所需要的资源和时间。在相关滤波中，目前效果最佳，也最常用的是KCF算法（Kernelized Correlation Filters），由\citet{henriques2015high}在2015年提出。
+
+  KCF算法中，首先考虑使用线性拟合得到通用的预测公式，这里使用岭回归（Ridge Regression）以得到一个简单的闭式解。通过训练得到一个函数$f(\vec{z})=\vec{w}^T\vec{z}$，使得样本$\vec{x}_i$及其回归目标$y_i$之间的方差最小，即：
+$$\min_{\vec{w}}\sum_i (f(\vec{x_i})-y_i)^2+\lambda \lVert\vec{w}\rVert^2$$
+
+  类似SVM，这里的$\lambda$是用于防止过拟合的正则化参数。由于岭回归的性质，上式可以得到一个简单的闭式解$\vec{w}=(X^TX+\lambda I)^{-1}X^T\vec{y}$。其中矩阵$X$的第$i$行为$\vec{x}_i$，向量$\vec{y}$的第$i$个元素为其回归目标$y_i$。$I$为单位矩阵。上面已经提过，为了提高运算效率，将计算转到傅里叶域中进行，故数据一般都以复数计算，所以将矩阵装置替换为共轭转置，得到：
+$$\vec{w}=(X^HX+\lambda I)^{-1}X^H\vec{y}$$
+
+  为了说明，这里之一单通道一维信号为例，说明循环移位在此的用法。假设一个$n\times1$的向量$\vec{x}$可用于表示目标物所在的图像区域，$\vec{x}$即作为基础样本。为了训练一个分类器，我们使用基础样本作为正样本，并通过将$\vec{x}$进行移位，来获得一些虚拟的负样本。可以通过循环移位算子$P$来计算向量的一维平移，$P$是一个置换矩阵：
+$$
+P = 
+\left[
+\begin{matrix}
+ 0      & 0      & 0      & \cdots & 0      \\
+ 1      & 0      & 0      & \cdots & 0      \\
+ 0      & 1      & 0      & \cdots & 0      \\
+ \vdots & \vdots & \ddots & \ddots & \vdots \\
+ 0      & 0      & \cdots & 1      & 0      \\
+\end{matrix}
+\right]
+$$
+
+  矩阵$P$与向量$\vec{x}$的乘积为$[x_n,x_1,x_2,\dots,x_{n-1}]^T$，将$\vec{x}$向右进行了一位的循环移位，$P^u\vec{x}$即可以计算出把$\vec{x}$移位$u$位的结果。所有通过这种方法移位的结果的集合为$\{P^u\vec{x}|u=0,\dots,n-1\}$。由于循环移位的特性，我们可以将该集合的前半部分视为正方向的移位，后半部分视为负方向的移位。
+
 
 \subsubsection{压缩追踪}
 
