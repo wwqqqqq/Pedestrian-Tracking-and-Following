@@ -1,33 +1,35 @@
 % !TeX root = ../main.tex
 
-\chapter{简介}
+\chapter{以可佳机器人为基础的行人追踪系统}
 
-\section{一级节标题}
+\section{输入设备}
 
-\subsection{二级节标题}
+\subsection{Kinect}
 
-\subsubsection{三级节标题}
+Kinect深度相机，提供RGB图像和深度图像。利用红外线成像，受自然光照影响较大。
 
-\paragraph{四级节标题}
+\subsection{2D激光}
 
-\subparagraph{五级节标题}
+用于定位和导航
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-incididunt ut labore et dolore magna aliqua.
-Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-aliquip ex ea commodo consequat.
-Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-fugiat nulla pariatur.
-Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
-deserunt mollit anim id est laborum.
+\section{视觉追踪系统}
 
+\subsection{总体架构}
 
+\subsection{目标人物注册}
+1. 使用OpenPose系统找到目标人物
 
-\section{脚注}
+给人物设定一个初始的手势，由OpenPose系统识别出人物的骨架，进而提取出视野中所有人物的姿势。如要求目标人物将一只手举起，直到机器人识别出目标人物，判断出追踪区域（Region of Interest, ROI），并提示“识别成功”，即开始追踪。
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-incididunt ut labore et dolore magna aliqua.
-\footnote{Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-  nisi ut aliquip ex ea commodo consequat.
-  Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
-  eu fugiat nulla pariatur.}
+2. 建立一个判别器：根据已有的ROI作为正样本，随机提取背景作为负样本，通过在线学习拟合出一个分类器。该判别器的作用是当追踪失去目标或出错时，当再在图像中检测到一个新人物时，判断对方是否是一开始的目标人物。
+
+\subsection{行人追踪}
+
+1. 使用KFC和CSRT，根据“目标人物注册”中得到的ROI进行目标追踪。
+
+\subsection{目标丢失恢复}
+
+1. 全局扫描找到行人，结合“目标人物注册”中的判别器，判断是否是目标人物。
+
+2. 结合目标人物最后出现的位置，类似TLD？
+
