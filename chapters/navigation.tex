@@ -4,7 +4,7 @@
 
 \section{ROS导航}
 
-ROS（Robot Operating System）是一个开源的专用于机器人软件开发的操作系统。ROS中提供了一个模块化的简单2D导航系统ROS Navigation，其主要架构如图\ref{fig:rosnav}所示。
+ROS（Robot Operating System）是一个开源的专用于机器人软件开发的操作系统。ROS中提供了一个模块化的简单2D导航系统ROS Navigation，其主要架构如图\ref{fig:rosnav}所示。在已有的导航结构的基础上，我们可以以插件的形式添加所需的行人识别和追踪模块，并根据此信息和用户的要求进行行人跟随。
 
 \begin{figure}[htb]
   \centering
@@ -29,13 +29,13 @@ ROS（Robot Operating System）是一个开源的专用于机器人软件开发�
 
 \subsection{导航控制}
 
-  导航控制模块即图\ref{fig:rosnav}中的move\_base模块，包括全局规划器、局部规划器和恢复机制。全局导航支持了${\rm A}^\ast$算法和dijkstra算法。局部规划器使用动态窗口法（Dynamic Window）\cite{fox1997dynamic}进行局部避障，使用路径展开法（Trajectory Rollout）\cite{gerkey2008planning}进行局部规划，最终生成机器人的实际路径和其当前应当采取的速度，传送给base\_control模块。
+  导航控制模块即图\ref{fig:rosnav}中的move\_base模块，包括全局规划器、局部规划器和恢复机制。全局导航支持${\rm A}^\ast$算法和dijkstra算法来在全局代价地图上找到前往下一个目的地的最短路径，在机器人开始移动之前就首先被计算出来。局部规划器监控了传感器信息，结合了里程计信息、全局和局部代价地图来选择机器人在全局路径的局部分块中应选择的最佳速度（线速度和角速度），传送给base\_control模块。同时，局部规划器也可以动态地重新规划机器人的局部路径以进行避障，使用动态窗口法（Dynamic Window）\cite{fox1997dynamic}进行局部避障，使用路径展开法（Trajectory Rollout）\cite{gerkey2008planning}进行局部规划和控制。恢复机制用于出现了异常情况，机器人无法进行决策时使用，ROS导航提供了两种恢复行为，使用静态地图在用户指定的更大范围外恢复代价地图，或通过使机器人$360^{\circ}$旋转来尝试清出空间。
 
 \section{可佳导航}
 
 \begin{figure}[htb]
   \centering
-  \includegraphics[width=1.1\textwidth]{kejianav.png}
+  \includegraphics[width=1.0\textwidth]{kejianav.png}
   \caption{可佳导航架构}
   \label{fig:kejianav}
 \end{figure}
