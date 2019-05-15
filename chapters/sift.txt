@@ -1,0 +1,44 @@
+  \citet{lowe2004distinctive}提出的SIFT生成图像特征的主要步骤如下：
+
+\paragraph{尺度空间极值检测}
+
+  通过高斯差分方程（difference-of-Gaussian function），在所有可能的尺度下搜索稳定的特征，来找出尺度和方向不变的潜在相关点。对于输入图像$I(x,y)$和可变尺度高斯核函数$G(x,y,\sigma)$，可以计算出图像的尺度空间$L(x,y,\sigma)$：
+$$L(x,y,\sigma)=G(x,y,\sigma)\ast I(x,y)$$
+
+  “$\ast$”为$x,y$上的卷积计算操作，$G(x,y,\sigma)=\frac{1}{2\pi\sigma^2}e^{-(x^2+y^2)/2\sigma^2}$，$\sigma$为尺度空间因子，反映了图像被模糊的程度，$\sigma$越大，对应的尺度也越大。
+
+  为了有效地检测出尺度空间中稳定的关键点位置，使用高斯差分方程来与图像进行卷积，由一个常数因子$k$，得出$D(x,y,\sigma)$：
+$$D(x,y,\sigma)=(G(x,y,k\sigma)-G(x,y,\sigma))\ast I(x,y)=L(x,y,k\sigma)-L(x,y,\sigma)$$
+
+  为了检测中$D(x,y,\sigma)$函数的局部最大值和最小值，每个点都与它在同尺度上的8个邻点，以及相邻的两个尺度上的各9个邻点相比较（相邻尺度上$\sigma_{s+1}=k\dot\sigma_s$）。只有它的值比相比较的26个相邻点都要小或者都要大时，才选取该点作为候选点。
+
+\paragraph{关键点精确定位}
+  对每个候选点上，拟合一个精细的模型来确定其位置和尺度，并根据其稳定性来选择关键点。
+
+  对尺度空间函数$D(x,y,\sigma)$进行最多二阶的泰勒展开：
+$$D(\vec{x})=D+\frac{\partial D^T}{\partial \vec{x}}\vec{x}+\frac{1}{2}\vec{x}^T\frac{\partial^2D}{\partial\vec{x}^2}\vec{x}$$
+
+  其中$D$和其微分在给定候选点处被计算，$\vec{x}=(x,y,\sigma)^T$是相对于该点的偏移向量。为了求$D$的局部极值的位置，对上式求导并设$D'$为0，则极值的位置的偏移量$\hat{\vec{x}}$和$D$的局部极值点分别为：
+\begin{gather*}
+\hat{\vec{x}}=-\frac{\partial^2 D^{-1}}{\partial \vec{x}^2}\frac{\partial D}{\partial \vec{x}}\\
+D(\hat{\vec{x}})=D+\frac{1}{2} \frac{\partial D^T}{\partial \vec{x}} \hat{\vec{x}}
+\end{gather*}
+
+  为了保证极值点的稳定性，需要剔除低对比度的极值点。若$|D(\hat{\vec{x}})|$的值小于0.03（假定每个像素的值的大小在$[0,1]$之间），则将该极值点舍弃。
+
+\paragraph{方向赋值}
+  根据局部的图像梯度方向，将一个或多个方向赋值给每个关键点位置。后续在该图像上进行的所有操作都将根据为每个特征所指定的方向、尺度和位置进行变换（transform），从而为这些特征提供方向、尺度不变性。
+
+  得到了每个关键点的尺度$\sigma$后，由特征点为中心，计算出同一尺度下周围区域每个点$(x,y)$的梯度大小$m(x,y)$和方向$\theta(x,y)$：
+\begin{gather*}
+m(x,y)=\sqrt{(L(x+1,y)-L(x-1,y))^2+(L(x,y+1)-L(x,y-1))^2}\\
+\theta(x,y)=\tan^{-1}((L(x,y+1)-L(x,y-1))/(L(x+1,y)-L(x-1,y)))
+\end{gather*}
+
+  使用直方图统计关键点邻域内像素对应的梯度方向和大小。
+
+  
+
+\paragraph{生成特征描述子}
+
+  校正旋转门主方向以确保旋转不变性，生成关键点描述子并进行归一化处理，以去除光照的影响。
