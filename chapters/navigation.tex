@@ -35,9 +35,9 @@ ROS（Robot Operating System）是一个开源的专用于机器人软件开发�
 
 \begin{figure}[htb]
   \centering
-  \includegraphics[width=1.0\textwidth]{kejianav.png}
+  \includegraphics[width=0.9\textwidth]{kejianav.png}
   \caption{可佳导航架构}
   \label{fig:kejianav}
 \end{figure}
 
-  可佳导航的架构如图\ref{fig:kejianav}所示。在导航方面，它相对于ROS导航，还加入了拓扑导航。使用VFH（vector field histogram）\cite{borenstein1991vector}进行局部避障。
+  可佳导航的架构如图\ref{fig:kejianav}所示，它同样使用ROS系统用于软件的运行和各模块之间的通信。在导航方面，它相对于ROS导航，还加入了拓扑导航和语义地图。可佳导航使用${\rm A}^\ast$算法进行全局和局部的路径规划，并使用向量场直方图（vector field histogram，VFH）\cite{borenstein1991vector}进行局部避障。可佳导航使用了一个状态机来进行任务的规划和决策。在收到任务目标后，它首先在全局地图上运行${\rm A}^\ast$算法，并将全局路径分成一些局部目的地（waypoints），将最近的waypoint作为VFH算法的目标点，运行局部的避障。如果遇到了障碍物，将障碍物更新到本地代价地图中，重新运行${\rm A}^\ast$的局部路径规划，如果此处的局部路径规划失败，则运行恢复机制\cite{liu2017wrighteagle}。

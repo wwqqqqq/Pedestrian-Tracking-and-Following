@@ -1,0 +1,8 @@
+  在计算直方图时，我们取9个组（bins），分别对应$0^{\circ},20^{\circ},40^{\circ},\dots,160^{\circ}$，若一个像素处的梯度正好为20的整数倍，将其梯度大小加到对应的bin中；否则，按照比例，将其加入相邻的两个bins中。以图\ref{fig:distribute}为例。这样一来，HOG特征描述子即为一个长为9的向量，每一个分量的大小对应直方图中相应bin的高度。
+
+\begin{figure}[htb]
+  \centering
+  \includegraphics[width=0.7\textwidth]{calc_histogram.png}
+  \caption{统计梯度方向直方图的方法示意}
+  \label{fig:distribute}
+\end{figure}

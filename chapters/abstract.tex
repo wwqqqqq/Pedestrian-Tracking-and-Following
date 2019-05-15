@@ -1,33 +1,33 @@
 % !TeX root = ../main.tex
 
 \begin{abstract}
-  服务机器人是一种半自助或全自主工作的机器人。它能完成有益于人类健康的服务工作，但不包括从事生产的设备。服务机器人分为个人/家庭服务机器人和专业机器人。专业机器人一般在特定场景中使用，如商业服务、物流、医疗、救援等；而个人/家用服务机器人主要在日常生活场景中进行与人进行交互，提供家政服务、陪伴、娱乐、辅助学习等多种功能，包括家政机器人、娱乐休闲机器人、助老助残机器人等。其中，个人/家庭服务机器人为本文研究内容所适用的对象。
+  服务机器人是一种能完成有益于人类的服务工作的半自助或全自主型机器人，分为个人/家庭服务机器人和专业机器人。专业机器人一般在特定场景中使用，如商业服务、物流、医疗、救援等；而个人/家用服务机器人主要在日常生活场景中进行与人进行交互，提供家政服务、陪伴、娱乐、辅助学习等多种功能，包括家政机器人、娱乐休闲机器人、助老助残机器人等。其中，个人/家庭服务机器人为本文研究内容所适用的对象。
 
-  为了精准理解当前环境和有效执行指令，能够精确可靠地自动识别目标人物并对其进行追踪陪同，是移动服务机器人的人机交互中的一项重要且必要的功能。
+  随着人工智能与物联网技术迅速发展，个人家庭用机器人、公共服务机器人的应用场景、服务模式和市场也在不断拓展，成为了当下的一个研究热点。为了精准理解当前环境和有效执行指令，能够精确可靠地自动识别目标人物并对其进行追踪陪同，是这类移动服务机器人的人机交互中的一项重要且必要的功能。
 
-  本文将针对室内移动机器人的行人跟随问题做如下研究：
+  本文将针对室内移动机器人的行人跟随问题做如下三个方面的研究：
 
-  （1）常用目标跟随算法的原理与实现；
+  （1）常用目标跟随算法的原理与实现：主要从行人检测和追踪两个角度进行调研论述。主要介绍了用于行人检测的几个常用特征，如颜色直方图、LBP、HOG、SIFT特征，基于机器学习的几种分类器，包括KNN、SVM、RandomForest、AdaBoost，以及几种常用的追踪算法，包括卡尔曼滤波、粒子滤波、均值漂移、相关滤波等。
 
-  （2）ROS导航和可佳导航介绍；
+  （2）ROS上的机器人导航技术；主要包括ROS提供的ROS导航包，以及中科大研发的可佳机器人的导航功能。
 
-  （3）可佳机器人上行人跟随系统的实现。
+  （3）可佳机器人上行人跟随系统的实现；结合行人的HOG特征和HSV直方图特征，使用CSR-DCF算法进行行人追踪，并单独训练一个SVM分类器以防止追踪器发生误判/漏判，以及帮助追踪器从追踪失败中恢复。
 
-  \keywords{计算机视觉；机器人；目标追踪；路径规划}
+  \keywords{计算机视觉；机器人；行人检测；目标追踪}
 \end{abstract}
 
 \begin{enabstract}
-  A service robot is a robot which operates semi- or fully autonomously to perform services useful to the well-being of humans and equipment, they exclude manufacturing operations, and they are capable of making decisions and acting autonomously in real and unpredictable environments to accomplish determined tasks.  There are two types of service robots, personal/domestic service robots and professional robots. Professional robots are typically used in specific occasions, including business, delivery, medical, rescue, etc. Personal/domestic service robots, which include cleaning robots, elder care and medical companions, entertainment and leisure robots, home education and training robots, are the specific research objects in this paper.
+  A service robot is a robot which operates semi- or fully autonomously to perform services useful to the well-being of humans and equipment. They are capable of making decisions and acting autonomously in real and unpredictable environments to accomplish determined tasks.  There are two types of service robots, personal/domestic service robots and professional robots. Professional robots are typically used in specific occasions, including business, delivery, medical, rescue, etc. Personal/domestic service robots, which include cleaning robots, elder care and medical companions, entertainment and leisure robots, home education and training robots, are the specific application objects of the research in this paper.
 
-  In order to accurately understand the current environment and effectively execute the instructions, one of the important and necessary ability for a personal service robot, is to automatically recognize and track a person precisely and robustly.
+  With the rapid development of artificial intelligence and IOT, the application scenarios, service patterns and market of service robots are also continuously expanding, thus making the service robots a focused area in Robotics research. In order to accurately understand the current environment and effectively execute the instructions, one of the important and necessary ability for a personal service robot, is to automatically recognize and track a person precisely and robustly.
 
   This paper is consist of three parts:
 
-  (1) The theories and implementation of various existing object tracking algorithms;
+  (1) The theories and implementation of various existing object tracking algorithm;
 
-  (2) Introduction of ROS navigation and kejia navigation;
+  (2) Robot navigation on ROS;
 
   (3) The implementation of the people following system on kejia robot.
 
-  \enkeywords{Computer Vision; Robotics; Object Tracking; Path Planning}
+  \enkeywords{Computer Vision; Robotics; Pedestrian Detection; Object Tracking}
 \end{enabstract}
