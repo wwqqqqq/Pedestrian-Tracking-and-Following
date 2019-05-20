@@ -1061,9 +1061,6 @@
     \chapter{\ustc@acknowledgementsname}%
   \else
     \ustc@chapter{\ustc@acknowledgementsname}%
-    \ifustc@tocloaded
-      致谢应置于目录前。\par
-    \fi
   \fi
 }{}
 \newenvironment{publications}{\chapter{\ustc@publicationsname}}{}

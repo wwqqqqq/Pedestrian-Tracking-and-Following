@@ -64,6 +64,7 @@ def bboxScale(frame, bbox, max_scale=0.08, sample_size=3):
     return samples
 
 def generate_positives(frame, bbox, max_shift=0.08, max_scale=0.08, nparray=True):
+    bbox = (int(bbox[0]),int(bbox[1]),int(bbox[2]),int(bbox[3]))
     positives = []
     # roi = frame[bbox[1]:bbox[1]+bbox[3],bbox[0]:bbox[0]+bbox[2]]
     positives.append(FeatureExtractor.extract_hog_hsv(frame, bbox))
@@ -74,6 +75,7 @@ def generate_positives(frame, bbox, max_shift=0.08, max_scale=0.08, nparray=True
     # flip horizontally
     roi = frame[bbox[1]:bbox[1]+bbox[3],bbox[0]:bbox[0]+bbox[2]]
     positives.append(FeatureExtractor.extract_hog_hsv(cv2.flip(roi, 1)))
+    positives.append(FeatureExtractor.extract_hog_hsv(cv2.GaussianBlur(roi,(5,5),15)))
     # 3 scaled samples
     scale_samples = bboxScale(frame, bbox, max_scale=max_scale)
     for newbox in scale_samples:
@@ -103,7 +105,8 @@ if __name__ == "__main__":
         cv2.rectangle(frame, p1, p2, (255,0,0), 2, 1)
     cv2.imshow("image",frame)
     cv2.waitKey(0)'''
-    '''roi = frame[bbox[1]:bbox[1]+bbox[3],bbox[0]:bbox[0]+bbox[2]]
-    roi = cv2.flip(roi, 1)
+    roi = frame[bbox[1]:bbox[1]+bbox[3],bbox[0]:bbox[0]+bbox[2]]
+    #roi = cv2.flip(roi, 1)
+    roi = cv2.GaussianBlur(roi,(5,5),15)
     cv2.imshow("image",roi)
-    cv2.waitKey(0)'''
+    cv2.waitKey(0)

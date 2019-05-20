@@ -8,7 +8,7 @@ def inBox(point,box):
         return True
     return False
 
-def generate_negative(frame, bbox, sample_size=9, max_iteration=1000, feature=True, nparray=True):
+def generate_negative(frame, bbox, sample_size=20, max_iteration=1000, feature=True, nparray=True):
     height, width, channels = frame.shape
     iteration = 0
     negatives = []
