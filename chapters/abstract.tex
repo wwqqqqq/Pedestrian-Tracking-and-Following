@@ -1,33 +1,18 @@
 % !TeX root = ../main.tex
 
 \begin{abstract}
-  服务机器人是一种能完成有益于人类的服务工作的半自助或全自主型机器人，分为个人/家庭服务机器人和专业机器人。专业机器人一般在特定场景中使用，如商业服务、物流、医疗、救援等；而个人/家庭服务机器人主要在日常生活场景中与人进行交互，提供家政服务、陪伴、娱乐、辅助学习等多种功能，包括家政机器人、娱乐休闲机器人、助老助残机器人等。其中，个人/家庭服务机器人为本文研究内容所适用的对象。
+  随着人工智能与物联网技术迅速发展，个人或家庭用机器人、公共服务机器人的应用场景、服务模式和市场也在不断拓展，成为了当下的一个研究热点。为了精准理解当前环境和有效执行指令，能够精确可靠地自动识别目标人物并对其进行追踪陪同，是这类移动服务机器人的人机交互中的一项重要且必要的功能。行人跟随功能可以用于在博物馆或医院等场景中对用户进行指引，在家庭中陪伴用户、与用户进行交互，助老、助残等，在投入应用后，可以有效减少在这些场景中的人工成本，便捷用户的生活和工作。
 
-  随着人工智能与物联网技术迅速发展，个人家庭用机器人、公共服务机器人的应用场景、服务模式和市场也在不断拓展，成为了当下的一个研究热点。为了精准理解当前环境和有效执行指令，能够精确可靠地自动识别目标人物并对其进行追踪陪同，是这类移动服务机器人的人机交互中的一项重要且必要的功能。
-
-  本文将针对室内移动机器人的行人跟随问题做如下三个方面的研究：
-
-  （1）常用目标跟随算法的原理与实现：主要从行人检测和追踪两个角度进行调研论述。主要介绍了用于行人检测的几个常用特征，如颜色直方图、LBP、HOG、SIFT特征，基于机器学习的几种分类器，包括KNN、SVM、RandomForest、AdaBoost，以及几种常用的追踪算法，包括卡尔曼滤波、粒子滤波、均值漂移、相关滤波等。
-
-  （2）ROS上的机器人导航技术；主要包括ROS提供的ROS导航包，以及中科大研发的可佳机器人的导航功能。
-
-  （3）可佳机器人上行人跟随系统的实现；结合行人的HOG特征和HSV直方图特征，使用CSR-DCF算法进行行人追踪，并单独训练一个SVM分类器以防止追踪器发生误判/漏判，以及帮助追踪器从追踪失败中恢复。
+  本文主要介绍并实现了一个能够长期稳定运行的视觉行人追踪系统，同时也涉及了在此基础上搭建机器人对使用者的跟随陪同系统的方法。本文通过对于现有行人检测和追踪方法的调研和对比实验，根据所需的应用场景，设计了一个根据视觉图像的、结合了以相关滤波为基础的行人追踪器和以人工特征和机器学习分类器为基础的行人检测器的视觉追踪系统。并利用Kinect深度相机，从视觉图像中得到目标所在位置，调用ROS导航或可佳导航系统，实现对于目标行人的跟随。
 
   \keywords{计算机视觉；机器人；行人检测；目标追踪}
 \end{abstract}
 
 \begin{enabstract}
-  A service robot is a robot which operates semi- or fully autonomously to perform services useful to the well-being of humans and equipment. They are capable of making decisions and acting autonomously in real and unpredictable environments to accomplish determined tasks.  There are two types of service robots, personal/domestic service robots and professional robots. Professional robots are typically used in specific occasions, including business, delivery, medical, rescue, etc. Personal/domestic service robots, which include cleaning robots, elder care and medical companions, entertainment and leisure robots, home education and training robots, are the specific application objects of the research in this paper.
 
-  With the rapid development of artificial intelligence and IOT, the application scenarios, service patterns and market of service robots are also continuously expanding, thus making the service robots a focused area in Robotics research. In order to accurately understand the current environment and effectively execute the instructions, one of the important and necessary ability for a personal service robot, is to automatically recognize and track a person precisely and robustly.
+  With the rapid development of artificial intelligence and Internet of Things, the application scenarios, service patterns and market of service robots are also continuously expanding, thus making the service robots a focused area in Robotics research. In order to accurately understand the current environment and effectively execute the instructions, one of the important and necessary ability for a personal service robot, is to automatically recognize and track a person precisely and robustly.
 
-  This paper is consist of three parts:
-
-  (1) The theories and implementation of various existing object tracking algorithm;
-
-  (2) Robot navigation on ROS;
-
-  (3) The implementation of the people following system on kejia robot.
+  This paper mainly introduces and implements a long-term visual pedestrian tracking system, and addresses the people-following system on a service robot based on it. By investigating and researching on current pedestrian detection and object tracking algorithms, we propose a visual-based tracking system, combining a correlation filter tracker and a machine learning classifier. The people-following system will make use of the Kinect depth image to locate the target people, and employ the ROS navigation or Kejia navigation system to conduct the following behavior.
 
   \enkeywords{Computer Vision; Robotics; Pedestrian Detection; Object Tracking}
 \end{enabstract}
