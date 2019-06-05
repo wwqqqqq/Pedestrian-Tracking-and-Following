@@ -1,1 +1,0 @@
-  Boosting算法还可以拓展为在线学习的分类器online Boosting，这些在线学习器在追踪领域有着很广泛的应用\citet{grabner2006real，oza2005online}。在线学习，即在初始时训练一个简单模型后，可以在预测时进行学习的分类器。
