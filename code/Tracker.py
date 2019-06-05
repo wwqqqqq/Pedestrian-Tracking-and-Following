@@ -197,18 +197,18 @@ def track_sequence(ctype='none', start_classifier=100, record=False, max_failure
                 p1 = (int(newbox[0]), int(newbox[1]))
                 p2 = (int(newbox[0] + newbox[2]), int(newbox[1] + newbox[3]))
                 cv2.rectangle(frame, p1, p2, (255,0,0), 2, 1)
-                cv2.putText(frame, "Tracking failure detected", (20,110), cv2.FONT_HERSHEY_SIMPLEX, 0.75,(0,0,255),2)
+                #cv2.putText(frame, "Tracking failure detected", (20,110), cv2.FONT_HERSHEY_SIMPLEX, 0.75,(0,0,255),2)
 
         # Display tracker type on frame
         p1 = (int(rect[0]), int(rect[1]))
         p2 = (int(rect[0] + rect[2]), int(rect[1] + rect[3]))
         cv2.rectangle(frame, p1, p2, (0,0,255), 2, 1)
-        cv2.putText(frame, "Blue: CSR-DCF with SVM", (20,20), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (255,0,0),2);
-        if ok2:
+        #cv2.putText(frame, "Blue: CSR-DCF with SVM", (20,20), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (255,0,0),2);
+        '''if ok2:
             cv2.putText(frame, "Green: CSR-DCF only", (20,50), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0,255,0), 2);
         else:
-            cv2.putText(frame, "Green: CSR-DCF only failed!", (20,50), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0, 255, 0), 2);
-        cv2.putText(frame, "Red: Groundtruth", (20,80), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0,0,255), 2);
+            cv2.putText(frame, "Green: CSR-DCF only failed!", (20,50), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0, 255, 0), 2);'''
+        #cv2.putText(frame, "Red: Groundtruth", (20,80), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0,0,255), 2);
 
         f.write(str(rect)+str(bbox)+str(bbox2)+"\r\n")
      
@@ -229,7 +229,7 @@ def track_sequence(ctype='none', start_classifier=100, record=False, max_failure
 
 
 
-#track_sequence(ctype='svm', dataset="Girl2",fail_thred=0.7, success_thred=0.5, max_failure=2, record=True, record_path="Girl2.avi", result_path="Girl2.txt", start_classifier=100, neg_sample=20, scale=1.5)
+track_sequence(ctype='none', dataset="Girl2",fail_thred=0.7, success_thred=0.5, max_failure=2, record=False, record_path="Girl2.avi", result_path="Girl2.txt", start_classifier=100, neg_sample=20, scale=1.5)
 
 
 
@@ -350,9 +350,9 @@ def fps_sum(ctype='none', start_classifier=100, record=False, max_failure=5, fai
     print(count_frame)
 
 
-fps_sum(ctype='none', dataset="Walking2",fail_thred=0.7, success_thred=0.5, max_failure=2, record=True, record_path="Girl2.avi", result_path="Girl2.txt", start_classifier=100, neg_sample=20, scale=1.5)
+#fps_sum(ctype='none', dataset="Walking2",fail_thred=0.7, success_thred=0.5, max_failure=2, record=True, record_path="Girl2.avi", result_path="Girl2.txt", start_classifier=100, neg_sample=20, scale=1.5)
 
-fps_sum(ctype='svm', dataset="Walking2",fail_thred=0.7, success_thred=0.5, max_failure=2, record=True, record_path="Girl2.avi", result_path="Girl2.txt", start_classifier=100, neg_sample=20, scale=1.5)
+#fps_sum(ctype='svm', dataset="Walking2",fail_thred=0.7, success_thred=0.5, max_failure=2, record=True, record_path="Girl2.avi", result_path="Girl2.txt", start_classifier=100, neg_sample=20, scale=1.5)
 
 '''
 Basketball

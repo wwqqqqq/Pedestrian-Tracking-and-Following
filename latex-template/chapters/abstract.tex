@@ -1,0 +1,18 @@
+% !TeX root = ../main.tex
+
+\begin{abstract}
+  随着人工智能与物联网技术迅速发展，个人或家庭用机器人、公共服务机器人的应用场景、服务模式和市场也在不断拓展，成为了当下的一个研究热点。为了精准理解当前环境和有效执行指令，能够精确可靠地自动识别目标人物并对其进行追踪陪同，是这类移动服务机器人的人机交互中的一项重要且必要的功能。行人跟随功能可以用于在博物馆或医院等场景中对用户进行指引，在家庭中陪伴用户、与用户进行交互，助老、助残等，在投入应用后，可以有效减少在这些场景中的人工成本，便捷用户的生活和工作。
+
+  本文主要介绍并实现了一个能够长期稳定运行的视觉行人追踪系统，同时也涉及了在此基础上搭建机器人对使用者的跟随陪同系统的方法。本文通过对于现有行人检测和追踪方法的调研和对比实验，根据所需的应用场景，设计了一个根据视觉图像的、结合了以相关滤波为基础的行人追踪器和以人工特征和机器学习分类器为基础的行人检测器的视觉追踪系统。并利用Kinect深度相机，从视觉图像中得到目标所在位置，调用ROS导航或可佳导航系统，实现对于目标行人的跟随。
+
+  \keywords{计算机视觉；机器人；行人检测；目标追踪}
+\end{abstract}
+
+\begin{enabstract}
+
+  With the rapid development of artificial intelligence and Internet of Things, the application scenarios, service patterns and market of service robots are also continuously expanding, thus making the service robots a focused area in Robotics research. In order to accurately understand the current environment and effectively execute the instructions, one of the important and necessary ability for a personal service robot, is to automatically recognize and track a person precisely and robustly.
+
+  This paper mainly introduces and implements a long-term visual pedestrian tracking system, and addresses the people-following system on a service robot based on it. By investigating and researching on current pedestrian detection and object tracking algorithms, we propose a visual-based tracking system, combining a correlation filter tracker and a machine learning classifier. The people-following system will make use of the Kinect depth image to locate the target people, and employ the ROS navigation or Kejia navigation system to conduct the following behavior.
+
+  \enkeywords{Computer Vision; Robotics; Pedestrian Detection; Object Tracking}
+\end{enabstract}
